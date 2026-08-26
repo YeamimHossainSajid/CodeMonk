@@ -1,0 +1,10 @@
+# Local Profile for Search Service
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/codemonk_search
+    username: codemonk
+    password: codemonk_secret
+  data:
+    redis:
+      host: localhost
+      port: 6379
