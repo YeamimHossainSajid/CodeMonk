@@ -1,0 +1,8 @@
+# Local Profile for Knowledge Service
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/codemonk_knowledge
+    username: codemonk
+    password: codemonk_secret
+  kafka:
+    bootstrap-servers: localhost:9092
