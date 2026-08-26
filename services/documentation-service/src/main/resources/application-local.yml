@@ -1,0 +1,5 @@
+# Local Profile for Documentation Service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
