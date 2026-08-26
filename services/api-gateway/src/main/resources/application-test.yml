@@ -1,0 +1,7 @@
+# Test Profile for API Gateway
+server:
+  port: 0
+
+eureka:
+  client:
+    enabled: false

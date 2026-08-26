@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: repository-service
+          uri: lb://repository-service
+          predicates:
+            - Path=/api/v1/repositories/**
+        - id: code-analysis-service
+          uri: lb://code-analysis-service
+          predicates:
+            - Path=/api/v1/analysis/**
+        - id: knowledge-service
+          uri: lb://knowledge-service
+          predicates:
+            - Path=/api/v1/knowledge/**
+        - id: search-service
+          uri: lb://search-service
+          predicates:
+            - Path=/api/v1/search/**
+        - id: ai-service
+          uri: lb://ai-service
+          predicates:
+            - Path=/api/v1/ai/**
+        - id: documentation-service
+          uri: lb://documentation-service
+          predicates:
+            - Path=/api/v1/docs/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,gateway
