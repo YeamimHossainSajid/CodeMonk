@@ -1,0 +1,6 @@
+# Local Profile for Repository Service
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/codemonk_repository
+    username: codemonk
+    password: codemonk_secret
