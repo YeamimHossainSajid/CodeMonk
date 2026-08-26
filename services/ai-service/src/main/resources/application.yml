@@ -1,0 +1,28 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: ai-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:mock-key-for-local-dev}
+      chat:
+        options:
+          model: gpt-4o-mini
+          temperature: 0.7
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

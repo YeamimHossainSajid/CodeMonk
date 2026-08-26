@@ -1,0 +1,16 @@
+# Test Profile for AI Service
+server:
+  port: 0
+
+spring:
+  ai:
+    openai:
+      api-key: test-mock-key
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+      - org.springframework.ai.autoconfigure.openai.OpenAiAutoConfiguration
+
+eureka:
+  client:
+    enabled: false

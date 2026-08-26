@@ -1,0 +1,7 @@
+# Local Profile for AI Service
+spring:
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:mock-key-for-local-dev}
+  kafka:
+    bootstrap-servers: localhost:9092
