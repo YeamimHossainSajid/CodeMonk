@@ -1,0 +1,10 @@
+server:
+  port: 8083
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/codemonk_knowledge
+    username: ${POSTGRES_USER:codemonk}
+    password: ${POSTGRES_PASSWORD:codemonk_secret}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}

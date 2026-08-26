@@ -1,0 +1,9 @@
+server:
+  port: 8085
+
+spring:
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:mock-key-for-local-dev}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}

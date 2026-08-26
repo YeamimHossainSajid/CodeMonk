@@ -1,0 +1,12 @@
+server:
+  port: 8084
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/codemonk_search
+    username: ${POSTGRES_USER:codemonk}
+    password: ${POSTGRES_PASSWORD:codemonk_secret}
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}

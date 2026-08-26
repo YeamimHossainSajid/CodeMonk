@@ -1,0 +1,8 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/codemonk_repository
+    username: ${POSTGRES_USER:codemonk}
+    password: ${POSTGRES_PASSWORD:codemonk_secret}
