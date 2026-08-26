@@ -1,0 +1,14 @@
+# Multi-stage Dockerfile for CodeMonk Microservices
+FROM eclipse-temurin:21-jdk-alpine AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY libs ./libs
+COPY services ./services
+RUN ./mvnw clean package -DskipTests
+
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+ARG SERVICE_NAME
+COPY --from=builder /app/services/${SERVICE_NAME}/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
