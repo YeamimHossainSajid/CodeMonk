@@ -1,0 +1,8 @@
+# Test Environment Profile for Discovery Server
+server:
+  port: 0
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
