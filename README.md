@@ -132,6 +132,20 @@ We are committed to full transparency about what exists today versus what is bei
 
 ---
 
+## 🚀 Quickstart for Local Development
+
+Start the infrastructure containers and build the microservices ecosystem:
+
+```bash
+# 1. Start local infrastructure (PostgreSQL with pgvector, Redis, Kafka)
+docker compose up -d
+
+# 2. Build & run tests across all microservices
+mvn clean test
+```
+
+---
+
 ## 🗺️ Roadmap
 
 Building CodeMonk is a step-by-step journey. Here is our strategic roadmap:
