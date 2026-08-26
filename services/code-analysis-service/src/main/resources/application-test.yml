@@ -1,0 +1,11 @@
+# Test Profile for Code Analysis Service
+server:
+  port: 0
+
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
+eureka:
+  client:
+    enabled: false

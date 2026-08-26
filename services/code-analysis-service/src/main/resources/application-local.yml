@@ -1,0 +1,4 @@
+# Local Profile for Code Analysis Service
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
