@@ -1,0 +1,10 @@
+# Test profile for Config Server
+server:
+  port: 0
+
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config

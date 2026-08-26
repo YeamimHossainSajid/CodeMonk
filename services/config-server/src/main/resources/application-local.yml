@@ -1,0 +1,7 @@
+# Local profile for Config Server
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:../../config
