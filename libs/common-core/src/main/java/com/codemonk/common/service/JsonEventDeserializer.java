@@ -1,5 +1,6 @@
 package com.codemonk.common.service;
 
+import com.codemonk.common.constant.JsonConstants;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.errors.SerializationException;
@@ -18,7 +19,7 @@ public class JsonEventDeserializer implements Deserializer<Map<String, Object>> 
     private final ObjectMapper objectMapper;
 
     public JsonEventDeserializer() {
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = JsonConstants.OBJECT_MAPPER;
     }
 
     @Override
