@@ -278,8 +278,8 @@ The architecture, features, documentation, experiments, and roadmap ideas are al
 
 CodeMonk is built by developers from around the world. Every single contribution matters—from fixing a typo in the README to designing a major subsystem.
 
-<a href="https://github.com/your-org/CodeMonk/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=your-org/CodeMonk" alt="Contributors" />
+<a href="https://github.com/YeamimHossainSajid/CodeMonk/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=YeamimHossainSajid/CodeMonk" alt="Contributors" />
 </a>
 
 *Thank you to everyone who has dedicated their time and talent to building CodeMonk!*
