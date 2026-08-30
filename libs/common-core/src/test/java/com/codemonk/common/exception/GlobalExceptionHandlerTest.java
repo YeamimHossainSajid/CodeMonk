@@ -1,5 +1,6 @@
 package com.codemonk.common.exception;
 
+import com.codemonk.common.constant.TracingConstants;
 import com.codemonk.common.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -8,6 +9,7 @@ import jakarta.validation.Path;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.MDC;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -176,7 +178,7 @@ class GlobalExceptionHandlerTest {
     @Test
     @DisplayName("Should extract trace ID from X-Trace-Id request header when present")
     void shouldExtractTraceIdFromHeader() {
-        when(request.getHeader("X-Trace-Id")).thenReturn("custom-trace-abc-123");
+        when(request.getHeader(TracingConstants.HEADER_TRACE_ID)).thenReturn("custom-trace-abc-123");
 
         ResponseEntity<ErrorResponse> response = exceptionHandler.handleResourceNotFoundException(
                 new ResourceNotFoundException("Test", "1"),
@@ -185,5 +187,41 @@ class GlobalExceptionHandlerTest {
 
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().traceId()).isEqualTo("custom-trace-abc-123");
+    }
+
+    @Test
+    @DisplayName("Should extract correlation ID from X-Correlation-Id when X-Trace-Id is absent")
+    void shouldExtractCorrelationIdWhenTraceIdAbsent() {
+        when(request.getHeader(TracingConstants.HEADER_TRACE_ID)).thenReturn(null);
+        when(request.getHeader(TracingConstants.HEADER_CORRELATION_ID)).thenReturn("corr-id-xyz-789");
+
+        ResponseEntity<ErrorResponse> response = exceptionHandler.handleResourceNotFoundException(
+                new ResourceNotFoundException("Test", "1"),
+                request
+        );
+
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().traceId()).isEqualTo("corr-id-xyz-789");
+    }
+
+    @Test
+    @DisplayName("Should extract trace ID from MDC when headers are absent")
+    void shouldExtractTraceIdFromMdcWhenHeadersAbsent() {
+        when(request.getHeader(TracingConstants.HEADER_TRACE_ID)).thenReturn(null);
+        when(request.getHeader(TracingConstants.HEADER_CORRELATION_ID)).thenReturn(null);
+
+        try {
+            MDC.put(TracingConstants.MDC_TRACE_ID, "mdc-trace-999");
+
+            ResponseEntity<ErrorResponse> response = exceptionHandler.handleResourceNotFoundException(
+                    new ResourceNotFoundException("Test", "1"),
+                    request
+            );
+
+            assertThat(response.getBody()).isNotNull();
+            assertThat(response.getBody().traceId()).isEqualTo("mdc-trace-999");
+        } finally {
+            MDC.clear();
+        }
     }
 }
