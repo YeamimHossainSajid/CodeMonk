@@ -1,6 +1,5 @@
 package com.codemonk.common.exception;
 
-import com.codemonk.common.constant.TracingConstants;
 import com.codemonk.common.dto.ErrorResponse;
 import com.codemonk.common.dto.ValidationErrorDetail;
 import jakarta.servlet.http.HttpServletRequest;
