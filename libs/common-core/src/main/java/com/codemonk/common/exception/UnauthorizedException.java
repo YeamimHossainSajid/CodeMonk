@@ -1,6 +1,6 @@
 package com.codemonk.common.exception;
 
-public class UnauthorizedException extends RuntimeException {
+public class UnauthorizedException extends DomainException {
 
     public UnauthorizedException(String message) {
         super(message);
