@@ -1,8 +1,6 @@
 package com.codemonk.common.exception;
 
-/**
- * Thrown when a requested resource (e.g. Repository, CodeEntity, IndexJob) cannot be found.
- */
+
 public class ResourceNotFoundException extends DomainException {
 
     public ResourceNotFoundException(String message) {

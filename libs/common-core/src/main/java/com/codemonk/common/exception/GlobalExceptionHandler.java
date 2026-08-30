@@ -21,12 +21,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Centralized exception handler for all CodeMonk microservices.
- * <p>
- * Translates domain, validation, and standard framework exceptions into
- * standardized {@link ErrorResponse} DTOs with consistent HTTP status codes.
- */
 @RestControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class GlobalExceptionHandler {

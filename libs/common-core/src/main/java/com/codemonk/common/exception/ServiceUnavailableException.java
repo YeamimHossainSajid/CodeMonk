@@ -1,8 +1,6 @@
 package com.codemonk.common.exception;
 
-/**
- * Thrown when a required external dependency or downstream microservice is unreachable or times out (HTTP 503).
- */
+
 public class ServiceUnavailableException extends DomainException {
 
     public ServiceUnavailableException(String message) {
