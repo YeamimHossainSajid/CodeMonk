@@ -49,6 +49,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
+    // added Unauthorized Exception Handler method
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException ex, HttpServletRequest request) {
+        String traceId = resolveTraceId(request);
+        log.warn("[TraceId: {}] Unauthorized access on path {}: {}", traceId, request.getRequestURI(), ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                ex.getMessage(), request.getRequestURI(), traceId);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
+
     @ExceptionHandler({InvalidRequestException.class, DomainException.class, IllegalArgumentException.class, IllegalStateException.class})
     public ResponseEntity<ErrorResponse> handleInvalidRequestException(Exception ex, HttpServletRequest request) {
         String traceId = resolveTraceId(request);
