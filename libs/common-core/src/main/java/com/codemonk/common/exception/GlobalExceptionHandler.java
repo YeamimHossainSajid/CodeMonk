@@ -146,6 +146,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
+    @ExceptionHandler(InternalServerException.class)
+    public ResponseEntity<ErrorResponse> handleInternalServerException(InternalServerException ex, HttpServletRequest request) {
+        String traceId = resolveTraceId(request);
+        log.error("[TraceId: {}] Internal server error on path {}: {}", traceId, request.getRequestURI(), ex.getMessage(), ex);
+
+        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                ex.getMessage(), request.getRequestURI(), traceId);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
     /**
      * Resolves the trace ID from the request headers, MDC context, or generates a fallback UUID.
      */
