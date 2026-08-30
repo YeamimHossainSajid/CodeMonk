@@ -1,8 +1,5 @@
 package com.codemonk.common.constant;
 
-/**
- * Common constants for distributed tracing, correlation headers, and logging MDC.
- */
 public final class TracingConstants {
 
     public static final String HEADER_TRACE_ID = "X-Trace-Id";

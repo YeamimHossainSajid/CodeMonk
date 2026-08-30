@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 import java.util.UUID;
 
+import static com.codemonk.common.constant.TracingConstants.*;
+
 @RestControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class GlobalExceptionHandler {
@@ -150,17 +152,17 @@ public class GlobalExceptionHandler {
      */
     protected String resolveTraceId(HttpServletRequest request) {
         if (request != null) {
-            String traceId = request.getHeader(TracingConstants.HEADER_TRACE_ID);
+            String traceId = request.getHeader(HEADER_TRACE_ID);
             if (traceId != null && !traceId.isBlank()) {
                 return traceId;
             }
-            String correlationId = request.getHeader(TracingConstants.HEADER_CORRELATION_ID);
+            String correlationId = request.getHeader(HEADER_CORRELATION_ID);
             if (correlationId != null && !correlationId.isBlank()) {
                 return correlationId;
             }
         }
 
-        String mdcTraceId = MDC.get(TracingConstants.MDC_TRACE_ID);
+        String mdcTraceId = MDC.get(MDC_TRACE_ID);
         if (mdcTraceId != null && !mdcTraceId.isBlank()) {
             return mdcTraceId;
         }
