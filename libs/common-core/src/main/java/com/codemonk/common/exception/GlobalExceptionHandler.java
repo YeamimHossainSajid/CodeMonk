@@ -49,6 +49,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException ex, HttpServletRequest request) {
+        String traceId = resolveTraceId(request);
+        log.warn("[TraceId: {}] Forbidden access on path {}: {}", traceId, request.getRequestURI(), ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase(),
+                ex.getMessage(), request.getRequestURI(), traceId);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+    }
+
     @ExceptionHandler({InvalidRequestException.class, DomainException.class, IllegalArgumentException.class, IllegalStateException.class})
     public ResponseEntity<ErrorResponse> handleInvalidRequestException(Exception ex, HttpServletRequest request) {
         String traceId = resolveTraceId(request);
