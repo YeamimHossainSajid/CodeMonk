@@ -141,7 +141,7 @@ Start the infrastructure containers and build the microservices ecosystem:
 docker compose up -d
 
 # 2. Build & run tests across all microservices
-mvn clean test
+./mvnw clean test
 ```
 
 ---
