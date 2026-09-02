@@ -31,6 +31,8 @@
 
         <!-- Common Dependencies -->
         <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
+        <!-- ArchUnit Dependency Version -->
+        <archunit.version>1.3.0</archunit.version>
     </properties>
 
     <modules>
@@ -64,6 +66,14 @@
                 <version>${spring-ai.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- ArchUnit Dependency -->
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit5</artifactId>
+                <version>${archunit.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <!-- Internal Library Module -->
