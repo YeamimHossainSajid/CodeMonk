@@ -26,9 +26,15 @@ public class ArchitectureQualityTest_15 {
     @Test
     @DisplayName("Exception classes should end with Exception suffix")
     void exceptionClassesShouldHaveExceptionSuffix() {
+        // Selects on RuntimeException, not Throwable: since Java 9 the platform classes live in
+        // the runtime image rather than on the classpath, so ArchUnit cannot resolve them. The
+        // imported superclass chain stops at DomainException's raw supertype, RuntimeException,
+        // which is recorded in its bytecode. Throwable lies one level beyond that unresolved
+        // stub, so `areAssignableTo(Throwable.class)` matches nothing and the rule fails with
+        // "failed to check any classes" rather than passing.
         classes()
                 .that().resideInAPackage("..exception..")
-                .and().areAssignableTo(Throwable.class)
+                .and().areAssignableTo(RuntimeException.class)
                 .should().haveSimpleNameEndingWith("Exception")
                 .check(importedClasses);
     }
