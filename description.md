@@ -1,52 +1,45 @@
-# Add ArchUnitArchitectureTests checking layer boundaries
+# Add RedisCacheTest_4 unit test
 
-Closes #381
+Closes #375
 
 ## Summary
 
-Adds `ArchUnitArchitectureTests`, an ArchUnit test in `libs/common-core` that checks clean architecture layer boundaries in `com.codemonk.common`.
-
-The packages are grouped into three rings. Code may only depend on its own ring or rings further in:
-
-| Ring | Packages | Contents |
-|---|---|---|
-| Foundation | `constant`, `dto` | Constants and DTOs with no framework dependencies |
-| Domain | `exception` | Domain exceptions and their HTTP translation |
-| Infrastructure | `cache`, `service` | Redis, Kafka and JPA adapters |
+Adds `RedisCacheTest_4`, a unit test in `libs/common-core` for the `RedisCache` component in `com.codemonk.common.cache`. It uses a mocked `RedisTemplate` and follows the same style as the other `RedisCacheTest_N` classes.
 
 ## Changes
 
-- **`ArchUnitArchitectureTests`** (`libs/common-core/src/test/java/com/codemonk/common/arch/`), with 6 rules:
-  1. **Dependencies only point inwards.** Foundation can't use Domain or Infrastructure. Domain can only use Foundation. Nothing may depend on Infrastructure.
-  2. **Adapters are kept apart.** `cache` and `service` must not depend on each other.
-  3. **Inner rings don't use infrastructure libraries.** Foundation and Domain can't use Spring Data, Spring DAO, Spring JDBC, Kafka, JPA or Hibernate.
-  4. **Foundation doesn't use Spring or Jakarta.**
-  5. **Domain exceptions don't know about HTTP.** Subclasses of `DomainException` can't use Spring or `jakarta.servlet`. Only the global exception handler turns them into HTTP responses.
-  6. **Only the `exception` package references the `@RestControllerAdvice` class.**
+- **`RedisCacheTest_4`** (`libs/common-core/src/test/java/com/codemonk/common/cache/`), with 6 tests. They cover behaviour the other `RedisCache` tests don't:
+  1. **Different prefixes give different keys.** `user:42` and `product:42` don't collide.
+  2. **A long TTL is passed through.** A 7-day TTL reaches Redis unchanged.
+  3. **A `null` value can be stored.** `put` passes it straight to Redis.
+  4. **An overwrite keeps the latest value.** Two `put` calls on the same key happen in order, and `get` returns the second value.
+  5. **Reading doesn't evict.** `get` never calls `delete`.
+  6. **Evicting a missing key doesn't fail.** `evict` doesn't throw when `delete` returns `false`.
 
-The rules add to the existing architecture tests without repeating them. `ArchitectureQualityTest_12` checks access between individual packages, and `ArchitectureQualityTest_13` checks for package cycles. This test checks the direction of dependencies between rings and keeps the adapters apart.
-
-No production code or `pom.xml` changes. ArchUnit 1.3.0 was already a test dependency of `common-core`.
+No production code or `pom.xml` changes.
 
 ## Testing
 
 ```bash
-./mvnw test -pl libs/common-core
+./mvnw test -pl libs/common-core -Dtest=RedisCacheTest_*
 ```
 
-- `ArchUnitArchitectureTests`: 6 tests, all passing.
-- Whole module: 65 tests, 0 failures, 0 errors, when run with JDK 24 support turned on (see note).
+- `RedisCacheTest_4`: 6 tests, all passing.
+- `RedisCacheTest_1` (3), `RedisCacheTest_2` (4) and `RedisCacheTest_5` (6) still pass.
+- `./mvnw test -pl libs/common-core`: every test class in the run passed, with 0 failures and 0 errors.
 
-**Note on JDK 24:** without that flag, 23 Mockito-based tests fail on JDK 24 (`RedisCacheServiceTest`, `GlobalExceptionHandlerTest`). They failed before this change too. The Mockito and Byte Buddy versions that come with Spring Boot can't create mocks on JDK 24, and the project targets JDK 21. They pass on JDK 21, or on JDK 24 with:
+**Note on test discovery:** a plain `./mvnw test -pl libs/common-core` does not run `RedisCacheTest_4`. By default, Surefire only picks up classes whose names end in `Test`, `Tests` or `TestCase`, or start with `Test`. A name ending in `_4` doesn't match, so the class runs only when named with `-Dtest=...`. The other `RedisCacheTest_N` classes have the same problem. Fixing it is outside the scope of this issue.
+
+**Note on JDK 24:** the project targets JDK 21. On JDK 24, the Mockito and Byte Buddy versions that come with Spring Boot can't create mocks, so the tests were run with:
 
 ```bash
-./mvnw test -pl libs/common-core "-DargLine=-Dnet.bytebuddy.experimental=true"
+./mvnw test -pl libs/common-core "-Dtest=RedisCacheTest_*" "-DargLine=-Dnet.bytebuddy.experimental=true"
 ```
 
 ## Checklist
 
-- [x] `ArchUnitArchitectureTests` created in `com.codemonk.common.arch`
-- [x] Tests pass
+- [x] `RedisCacheTest_4` created in `com.codemonk.common.cache`
+- [x] `RedisCacheTest_4` passes
 - [x] Existing tests pass
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
