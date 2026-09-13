@@ -3,8 +3,6 @@ package com.codemonk.common.arch;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
-import com.tngtech.archunit.core.importer.ClassFileImporter;
-import com.tngtech.archunit.core.importer.ImportOption;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,9 +16,7 @@ public class ArchitectureQualityTest_15 {
 
     @BeforeEach
     void setUp() {
-        importedClasses = new ClassFileImporter()
-                .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
-                .importPackages("com.codemonk.common");
+        importedClasses = ArchTestImports.importMainClasses("com.codemonk.common");
     }
 
     @Test
