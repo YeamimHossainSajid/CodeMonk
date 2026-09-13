@@ -33,6 +33,8 @@
         <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
         <!-- ArchUnit Dependency Version -->
         <archunit.version>1.3.0</archunit.version>
+        <!-- WireMock Dependency Version -->
+        <wiremock.version>3.9.1</wiremock.version>
     </properties>
 
     <modules>
@@ -73,6 +75,14 @@
                 <groupId>com.tngtech.archunit</groupId>
                 <artifactId>archunit-junit5</artifactId>
                 <version>${archunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- WireMock Dependency (standalone jar shades Jetty to avoid conflicts with Spring Boot) -->
+            <dependency>
+                <groupId>org.wiremock</groupId>
+                <artifactId>wiremock-standalone</artifactId>
+                <version>${wiremock.version}</version>
                 <scope>test</scope>
             </dependency>
 
