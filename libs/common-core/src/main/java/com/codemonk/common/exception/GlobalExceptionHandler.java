@@ -49,15 +49,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
-    // added Unauthorized Exception Handler method
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException ex, HttpServletRequest request) {
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException ex, HttpServletRequest request) {
         String traceId = resolveTraceId(request);
-        log.warn("[TraceId: {}] Unauthorized access on path {}: {}", traceId, request.getRequestURI(), ex.getMessage());
+        log.warn("[TraceId: {}] Forbidden access on path {}: {}", traceId, request.getRequestURI(), ex.getMessage());
 
-        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase(),
                 ex.getMessage(), request.getRequestURI(), traceId);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
     }
 
     @ExceptionHandler({InvalidRequestException.class, DomainException.class, IllegalArgumentException.class, IllegalStateException.class})
@@ -154,6 +153,16 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
                 "An unexpected internal error occurred. Please contact support with the provided trace ID.", request.getRequestURI(), traceId);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(InternalServerException.class)
+    public ResponseEntity<ErrorResponse> handleInternalServerException(InternalServerException ex, HttpServletRequest request) {
+        String traceId = resolveTraceId(request);
+        log.error("[TraceId: {}] Internal server error on path {}: {}", traceId, request.getRequestURI(), ex.getMessage(), ex);
+
+        ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                ex.getMessage(), request.getRequestURI(), traceId);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 

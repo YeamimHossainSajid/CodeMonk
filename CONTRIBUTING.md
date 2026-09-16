@@ -27,7 +27,7 @@ When contributing code to any microservice, please adhere to our core architectu
 4. **Build & Test Locally**:
    Ensure all microservice tests pass before opening a PR:
    ```bash
-   mvn clean test
+   ./mvnw clean test
    ```
 5. **Open a Pull Request**: Submit your PR with a clear description of your changes and reference the issue number.
 
