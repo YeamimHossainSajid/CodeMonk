@@ -1,4 +1,4 @@
-package com.codemonk.common;
+package com.codemonk.common.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

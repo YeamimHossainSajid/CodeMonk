@@ -79,13 +79,13 @@ public class ArchitectureQualityTest_13 {
     }
 
     @Test
-    @DisplayName("Spring stereotypes should live in the cache, service or exception packages")
+    @DisplayName("Spring stereotypes should live in the cache, service, exception or filter packages")
     void springStereotypesShouldResideInAllowedPackages() {
         classes()
                 .that().areAnnotatedWith(Service.class)
                 .or().areAnnotatedWith(Component.class)
                 .or().areAnnotatedWith(RestControllerAdvice.class)
-                .should().resideInAnyPackage("..cache..", "..service..", "..exception..")
+                .should().resideInAnyPackage("..cache..", "..service..", "..exception..", "..filter..")
                 .check(importedClasses);
     }
 
