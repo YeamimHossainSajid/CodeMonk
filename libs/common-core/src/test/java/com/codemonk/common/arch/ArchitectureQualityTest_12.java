@@ -73,13 +73,13 @@ public class ArchitectureQualityTest_12 {
     }
 
     @Test
-    @DisplayName("Spring Web should stay confined to the exception advice layer")
+    @DisplayName("Spring Web should stay confined to the exception advice and filter layers")
     void springWebShouldBeConfinedToTheExceptionLayer() {
         noClasses()
-                .that().resideOutsideOfPackage("..exception..")
+                .that().resideOutsideOfPackages("..exception..", "..filter..")
                 .should().dependOnClassesThat()
                 .resideInAPackage("org.springframework.web..")
-                .because("only the global exception advice translates errors into HTTP responses")
+                .because("only the global exception advice and the servlet filters touch the HTTP layer")
                 .check(importedClasses);
     }
 

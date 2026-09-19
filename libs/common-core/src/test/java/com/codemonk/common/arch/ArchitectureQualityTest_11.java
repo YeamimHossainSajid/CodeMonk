@@ -142,9 +142,11 @@ public class ArchitectureQualityTest_11 {
         classes()
                 .should().resideInAnyPackage(
                         ROOT_PACKAGE + ".cache..",
+                        ROOT_PACKAGE + ".config..",
                         ROOT_PACKAGE + ".constant..",
                         ROOT_PACKAGE + ".dto..",
                         ROOT_PACKAGE + ".exception..",
+                        ROOT_PACKAGE + ".filter..",
                         ROOT_PACKAGE + ".service..")
                 .because("a new top-level package is an architectural decision, not an accident")
                 .check(importedClasses);
