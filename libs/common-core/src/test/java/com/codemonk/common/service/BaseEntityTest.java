@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class BaseEntityTest {
 
     @Test
-    void shouldDefineJpaAndAuditingMetadata() {
+    void shouldDefineJpaAndAuditingMetadata() throws NoSuchFieldException {
         assertTrue(BaseEntity.class.isAnnotationPresent(MappedSuperclass.class));
 
         EntityListeners listeners = BaseEntity.class.getAnnotation(EntityListeners.class);
