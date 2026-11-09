@@ -18,6 +18,9 @@ import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+//CI - Fix - 9-11-26
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 /**
  * Starts the real Kafka container. Skipped when Docker is not available.
  */
@@ -45,6 +48,14 @@ class TestcontainersConfigKafkaContainerTest {
                     .get(30, TimeUnit.SECONDS);
 
             assertTrue(topics.contains(topic));
+        }
+    }
+
+    @Test
+    @DisplayName("Should create an unstarted Kafka container")
+    void shouldCreateKafkaContainer() {
+        try (KafkaContainer container = TestcontainersConfig.kafkaContainer()) {
+            assertFalse(container.isRunning());
         }
     }
 }
