@@ -24,5 +24,8 @@ jobs:
       - name: Build with Maven
         run: mvn clean compile --batch-mode
 
+      - name: Let Testcontainers use a newer Docker API
+        run: echo "api.version=1.44" > ~/.docker-java.properties
+
       - name: Run Microservice Context & Unit Tests
         run: mvn test --batch-mode
