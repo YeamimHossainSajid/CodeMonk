@@ -42,6 +42,19 @@ class DocumentationRepositoryTest {
     }
 
     @Test
+    void storesMarkdownContentLongerThanDefaultColumnLength() {
+        String longContent = "# Architecture\n\n" + "x".repeat(10_000);
+
+        DocumentationEntity saved = repository.saveAndFlush(
+                new DocumentationEntity("repo-1", "ARCHITECTURE", "Architecture", longContent, "GENERATED"));
+
+        assertThat(repository.findById(saved.getId()))
+                .get()
+                .extracting(DocumentationEntity::getMarkdownContent)
+                .isEqualTo(longContent);
+    }
+
+    @Test
     void findByRepositoryIdReturnsEmptyListForUnknownRepository() {
         assertThat(repository.findByRepositoryId("missing")).isEmpty();
     }

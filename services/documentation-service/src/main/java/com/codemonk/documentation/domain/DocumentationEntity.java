@@ -1,5 +1,6 @@
 package com.codemonk.documentation.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +16,8 @@ public class DocumentationEntity {
     private String repositoryId;
     private String docType;
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String markdownContent;
     private String status;
 
