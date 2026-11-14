@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 /**
  * Documentation as it is handed to callers of {@link DocumentationService}.
  *
- * <p>{@link DocumentationEntity} stays inside the service that persists it, so
- * the contract shared through common-core carries this response instead.
+ * <p>The JPA entity stays inside the documentation service, which persists it,
+ * so the contract shared through common-core carries this response instead.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record DocumentationResponse(

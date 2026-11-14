@@ -1,4 +1,4 @@
-package com.codemonk.common.service;
+package com.codemonk.documentation.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
