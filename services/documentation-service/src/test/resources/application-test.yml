@@ -1,0 +1,7 @@
+# Test Profile for Documentation Service
+server:
+  port: 0
+
+eureka:
+  client:
+    enabled: false
