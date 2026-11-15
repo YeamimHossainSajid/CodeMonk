@@ -8,9 +8,9 @@ import java.util.Optional;
  *
  * <p>Implementations live in the documentation service; common-core only owns the
  * contract so that every caller agrees on the same operations. The contract is
- * expressed in {@link DocumentationResponse} rather than
- * {@link DocumentationEntity}, which keeps the persistence model private to its
- * owning service.
+ * expressed in {@link DocumentationResponse} rather than the documentation
+ * service's JPA entity, which keeps the persistence model private to its owning
+ * service.
  */
 public interface DocumentationService {
 

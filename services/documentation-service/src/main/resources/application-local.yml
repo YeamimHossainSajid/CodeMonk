@@ -1,4 +1,10 @@
 # Local Profile for Documentation Service
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/codemonk_documentation
+    username: codemonk
+    password: codemonk_secret
+
 eureka:
   client:
     service-url:
