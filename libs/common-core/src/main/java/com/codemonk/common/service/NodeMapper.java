@@ -1,35 +1,42 @@
 package com.codemonk.common.service;
 
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 import java.util.Objects;
 
-/**
- * Maps between {@link CodeNode} domain objects and {@link NodeResponse} DTOs.
- */
 
 @Component
 public class NodeMapper {
 
 
-    /**
-     * Converts a {@link CodeNode} domain object to a {@link NodeResponse} DTO.
-     *
-     * @param node the domain node; must not be null
-     * @return corresponding DTO
-     */
-    public NodeResponse toResponse(CodeNode node){
+    public NodeResponse toResponse(CodeNode node) {
+
         Objects.requireNonNull(node, "node must not be null");
-        return new NodeResponse(node.id(), node.label(), node.properties(),node.tags());
+
+        return new NodeResponse(node.nodeId(), node.name(), node.qualifiedName(), toTags(node.entityType(), node.repositoryId()));
     }
 
-    /**
-     * Converts a {@link NodeResponse} DTO back to a {@link CodeNode} domain object.
-     *
-     * @param response the DTO; must not be null
-     * @return corresponding domain object
-     */
-    public CodeNode toDomain(NodeResponse response){
+
+    public CodeNode toDomain(NodeResponse response) {
         Objects.requireNonNull(response, "response must not be null");
-        return new CodeNode(response.id(), response.label(), response.properties(), response.tags());
+
+        List<String> tags = response.tags();
+        String entityType = tags.isEmpty() ? "" : tags.get(0);
+        String repositoryId = tags.size() < 2 ? "" : tags.get(1);
+
+        return new CodeNode(response.id(), response.label(), entityType, response.properties(), repositoryId);
+    }
+
+    private static List<String> toTags(String entityType, String repositoryId) {
+        if (entityType.isEmpty() && repositoryId.isEmpty()) {
+            return List.of();
+        }
+
+        if (entityType.isEmpty()) {
+            return List.of("", repositoryId);
+        }
+
+        return repositoryId.isEmpty() ? List.of(entityType) : List.of(entityType, repositoryId);
     }
 }
